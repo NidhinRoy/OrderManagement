@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: background-image 1s ease-in-out; /* Smooth transition for background change */
+        }
+        hr {
+            background-color: #ff0080;
+            height: 20px;
+        }
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .center-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .center-buttons a {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            margin: 10px;
+            background-color: #ff0080;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .center-buttons a:hover {
+            background-color: #e60073;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo Centered -->
+    <div class="logo">
+        <hr>
+        <img src="{% static 'images/logo.png' %}" alt="Matson Logo" width="300">
+    </div>
+
+    <!-- Centered Buttons -->
+    <div class="center-buttons">
+        <a href="{% url 'order' %}">Order</a>
+        <a href="{% url 'final' %}">Final</a>
+        <a href="{% url 'delivery' %}">Delivery</a>
+    </div>
+
+    <script>
+        // Array of background images
+        const backgroundImages = [
+            "{% static 'images/bg1.jpg' %}",
+            "{% static 'images/bg2.jpg' %}",
+            "{% static 'images/bg3.jpg' %}"
+        ];
+
+        // Index to keep track of current image
+        let currentIndex = 0;
+
+        // Function to change background image
+        function changeBackgroundImage() {
+            document.body.style.backgroundImage = `url(${backgroundImages[currentIndex]})`;
+            currentIndex = (currentIndex + 1) % backgroundImages.length; // Cycle through images
+        }
+
+        // Initial background change and set interval to change every 5 seconds
+        changeBackgroundImage();
+        setInterval(changeBackgroundImage, 5000);
+    </script>
+</body>
+</html>

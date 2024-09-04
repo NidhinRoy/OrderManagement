@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Orders</title>
+    <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+    <style>
+        .a {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #ff0080;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            width: 400px;
+        }
+        .a:hover {
+            background-color: #e60073;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Blue background */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-back:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ff0080;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top centered logo -->
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Matson Logo" width="300">
+    </div>
+
+    <center><h2>Final Orders</h2></center>
+
+    <!-- Back to Home Button -->
+    <center>
+        <a href="{% url 'home' %}" class="btn-back">Back to Home</a>
+    </center>
+
+    <!-- Table to display the orders -->
+    <table>
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Model No</th>
+                <th>Copy</th>
+                <th>Date</th>
+                <th>Per Copy Rate</th>
+                <th>Mobile</th>
+                <th>Franchise Name</th>
+                <th>Advance</th>
+                <th>Balance</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.model_no }}</td>
+                <td>{{ order.copy }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.per_copy_rate }}</td>
+                <td>{{ order.mob }}</td>
+                <td>{{ order.franchise_name }}</td>
+                <td>{{ order.advance }}</td>
+                <td>{{ order.balance }}</td>
+                <td>{{ order.remarks }}</td>
+                <td>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <button type="submit" class="a">Proceed to Delivery</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11">No orders found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

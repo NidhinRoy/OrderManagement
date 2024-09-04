@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Orders</title>
+    <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ff0080;
+            color: white;
+        }
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-complete {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-complete:hover {
+            background-color: #218838;
+        }
+        .btn-back {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top centered logo -->
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Matson Logo" width="300">
+    </div>
+
+    <center><h2>Completed Orders for Delivery</h2></center>
+
+    <!-- Back to Home Button -->
+    <center>
+        <a href="{% url 'home' %}" class="btn-back">Back to Home</a>
+    </center>
+
+    <!-- Table to display the completed orders -->
+    <table>
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Model No</th>
+                <th>Copy</th>
+                <th>Date</th>
+                <th>Franchise Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in completed_orders %}
+            <tr>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.model_no }}</td>
+                <td>{{ order.copy }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.franchise_name }}</td>
+                <td>
+                    <!-- Form to handle the deletion of the order -->
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <button type="submit" class="btn-complete">Delivery Completed</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No completed orders found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
